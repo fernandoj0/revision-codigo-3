@@ -10,26 +10,29 @@ const productos = [
 let li = document.getElementById("lista-de-productos"); // se modifica por element by id
 let $i = document.querySelector('input');
 
-for (let i = 0; i < productos.length; i++) {
-  let d = document.createElement("li"); // d debe crear un elemento li y no un div para que se pueda usar el metodo appendChild
-  d.classList.add("producto");
 
-  let ti = document.createElement("p");
-  ti.classList.add("titulo");
-  ti.textContent = productos[i].nombre;
+displayProducts(productos);
+
+// se crea la funcion displayProducts pues se utiliza tanto en al inicio como en el boton
+
+function displayProducts(productos) {
+  for (let i = 0; i < productos.length; i++) {
+    let d = document.createElement("li"); // d debe crear un elemento li y no un div para que se pueda usar el metodo appendChild
+    d.classList.add("producto");
   
-  let imagen = document.createElement("img");
-  imagen.setAttribute("src", productos[i].img);
-
-
-  d.appendChild(ti);
-  d.appendChild(imagen);
-
-  li.appendChild(d); // se coloca li dentro del for
-
+    let ti = document.createElement("p");
+    ti.classList.add("titulo");
+    ti.textContent = productos[i].nombre;
+    
+    let imagen = document.createElement("img");
+    imagen.setAttribute('src', productos[i].img);
+  
+    d.appendChild(ti);
+    d.appendChild(imagen);
+  
+    li.appendChild(d);
+  }
 }
-
-// se eliminar display products
 
 
 const botonDeFiltro = document.querySelector("button");
@@ -38,27 +41,13 @@ botonDeFiltro.onclick = function() {
   while (li.firstChild) {
     li.removeChild(li.firstChild);
   }
-
   const texto = $i.value;
   console.log(texto);
+  // se crea la variable de productos filtrados para usarla con displayProducts
   const productosFiltrados = filtrado(productos, texto );
 
-  for (let i = 0; i < productosFiltrados.length; i++) {
-    let d = document.createElement("li");
-    d.classList.add("producto");
+  displayProducts(productosFiltrados);
   
-    let ti = document.createElement("p");
-    ti.classList.add("titulo");
-    ti.textContent = productosFiltrados[i].nombre;
-    
-    let imagen = document.createElement("img");
-    imagen.setAttribute('src', productosFiltrados[i].img);
-  
-    d.appendChild(ti);
-    d.appendChild(imagen);
-  
-    li.appendChild(d);
-  }
 }
 
 const filtrado = (productos = [], texto) => {
